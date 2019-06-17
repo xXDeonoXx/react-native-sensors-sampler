@@ -16,8 +16,8 @@
     "react-native"
   ],
   "author": {
-    "name": "Your Name",
-    "email": "yourname@email.com"
+    "name": "Ofri Ivzori",
+    "email": "ofrii@dayzz.com"
   },
   "license": "Apache-2.0",
   "licenseFilename": "LICENSE",
@@ -28,6 +28,6 @@
   },
   "devDependencies": {
     "react": "^16.5.0",
-    "react-native": "^0.59.4"
+    "react-native": "^0.57.0"
   }
 }
