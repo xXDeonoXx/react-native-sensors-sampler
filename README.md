@@ -30,7 +30,7 @@
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
-      compile project(':react-native-sensors-sampler')
+      implementation project(':react-native-sensors-sampler')
   	```
 4. Android dangerous permissions
   - if you want to use noise sampler you must ask for these two permissions before subscribing
@@ -54,8 +54,8 @@ subscribeTo(
     100, // 100 millis interval updates
     10000, // 10000 millis sampling period
     allowedSubscriptions.NOISE, // event
-    (value) => { ... },
-    (error) => { ... },
+    (value) => { ... }, // update callback
+    (error) => { ... }, // error callback - subscription faild
 );
 
 // unsubscribe from event
