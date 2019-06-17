@@ -41,7 +41,7 @@ export const subscribeTo = (interval, period, event, successCallback, errorCallb
     SensorsSampler.subscribe(interval || 100, period || 10000, event)
         .then(() => {
             subscriptions[event] = DeviceEventEmitter.addEventListener(
-                `RCTSensorsSamplerUpdate_${event}`,
+                `SensorsSamplerUpdate_${event}`,
                 (params) => {
                     const { type, value } = params;
                     successCallback(value);
