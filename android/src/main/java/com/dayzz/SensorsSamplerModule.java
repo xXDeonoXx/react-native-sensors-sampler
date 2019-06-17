@@ -30,7 +30,7 @@ public class SensorsSamplerModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void subscribe(Long interval, Long period, String event, Promise promise) {
+    public void subscribe(int interval, int period, String event, Promise promise) {
         switch (event) {
             case "noise":
                 if (noiseSampler == null) {

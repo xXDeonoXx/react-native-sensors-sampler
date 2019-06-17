@@ -45,9 +45,7 @@
 
 ## Usage
 ```javascript
-import SensorsSampler from 'react-native-sensors-sampler';
-
-const { allowedSubscriptions, subscribeTo, unsubscribe } = SensorsSampler;
+import { allowedSubscriptions, subscribeTo, unsubscribe } from 'react-native-sensors-sampler';
 
 // subscribe to event
 subscribeTo(
