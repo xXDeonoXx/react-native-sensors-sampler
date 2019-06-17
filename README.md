@@ -47,6 +47,17 @@
 ```javascript
 import SensorsSampler from 'react-native-sensors-sampler';
 
-// TODO: What to do with the module?
-SensorsSampler;
+const { allowedSubscriptions, subscribeTo, unsubscribe } = SensorsSampler;
+
+// subscribe to event
+subscribeTo(
+    100, // 100 millis interval updates
+    10000, // 10000 millis sampling period
+    allowedSubscriptions.NOISE, // event
+    (value) => { ... },
+    (error) => { ... },
+);
+
+// unsubscribe from event
+unsubscribe(allowedSubscriptions.NOISE);
 ```
