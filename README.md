@@ -35,12 +35,13 @@
 4. Android dangerous permissions
   - if you want to use noise sampler you must ask for these two permissions before subscribing
 
-  ```
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-  ```
-  ```
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  ```
+      ```
+        <uses-permission android:name="android.permission.RECORD_AUDIO" />
+      ```
+
+      ```
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      ```
 
 ## Usage
 ```javascript
