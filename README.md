@@ -49,7 +49,7 @@ subscribeTo(
     100, // 100 millis interval updates
     10000, // 10000 millis sampling period
     allowedSubscriptions.NOISE, // event
-    (value) => { ... }, // update callback
+    ({ value, updateType }) => { ... }, // update callback
     (error) => { ... }, // error callback - subscription faild
 );
 

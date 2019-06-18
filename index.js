@@ -44,7 +44,7 @@ export const subscribeTo = (interval, period, event, successCallback, errorCallb
                 `SensorsSamplerUpdate_${event}`,
                 (params) => {
                     const { type, value } = params;
-                    successCallback(value);
+                    successCallback({ value, updateType: type });
                     if (type === 'end') {
                         subscriptions[event].remove();
                         delete subscriptions[event];
