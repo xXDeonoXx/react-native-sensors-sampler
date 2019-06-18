@@ -3,6 +3,7 @@ package com.dayzz
 import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
+import android.net.Uri
 import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -10,10 +11,8 @@ import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.modules.core.DeviceEventManagerModule
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.IOException
+import java.io.*
+import java.lang.Exception
 import java.lang.IllegalStateException
 import java.util.*
 import kotlin.concurrent.schedule
@@ -40,23 +39,34 @@ class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val
         return hasPermissions
     }
 
+    private fun getUriFromFilePath(filePath: String): Uri {
+        var uri = Uri.parse(filePath)
+        if (uri.scheme == null) {
+            uri = Uri.parse("file://${filePath}")
+        }
+        return uri
+    }
+
     fun startSampling(): Pair<Boolean, String> {
         if (!checkForPermissions()) {
             return Pair(false, "permissions not granted")
         }
 
+        val filePath = "${context.filesDir.absolutePath}/noise-sampler.acc"
+        val uri = getUriFromFilePath(filePath)
+        val fd: FileDescriptor
         try {
-            file = File(context.externalMediaDirs[0], "noise-sampler.acc")
-            file?.createNewFile()
-        } catch (e: FileNotFoundException) {
+            file = File(filePath)
+            fd = context.contentResolver.openFileDescriptor(uri, "w")!!.fileDescriptor
+        } catch (e: Exception) {
             return Pair(false, "could not create audio file")
         }
 
-        mediaRecorder = MediaRecorder().apply {
+        MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-            setOutputFile(FileInputStream(file).fd)
+            setOutputFile(fd)
 
             try {
                 prepare()
@@ -67,6 +77,7 @@ class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val
 
             try {
                 start()
+                mediaRecorder = this
                 startSchedule()
                 return Pair(true, "")
             } catch (e: IllegalStateException) {
@@ -84,7 +95,7 @@ class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val
         timestamp = System.currentTimeMillis()
         timerStarted = true
         timer.schedule(0, interval) {
-            val amp = mediaRecorder!!.maxAmplitude
+            val amp = mediaRecorder?.maxAmplitude ?: 0
             var db = 0
             if (amp != 0) {
                 db = (20.0f * Math.log10(amp * 1.0)).toInt()
