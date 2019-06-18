@@ -33,15 +33,12 @@
       implementation project(':react-native-sensors-sampler')
   	```
 4. Android dangerous permissions
-  - if you want to use noise sampler you must ask for these two permissions before subscribing
+  - if you want to use noise sampler you must ask for this permission before subscribing
 
       ```
         <uses-permission android:name="android.permission.RECORD_AUDIO" />
       ```
 
-      ```
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-      ```
 
 ## Usage
 ```javascript
@@ -57,5 +54,7 @@ subscribeTo(
 );
 
 // unsubscribe from event
+// when mentioned period in subscribeTo is over the unsubscribe happen automatically
+// call this method only if you want to unsubscribe in the middle of the subscription period
 unsubscribe(allowedSubscriptions.NOISE);
 ```

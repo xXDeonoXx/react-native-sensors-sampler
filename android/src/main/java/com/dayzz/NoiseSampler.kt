@@ -23,10 +23,7 @@ class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val
     private val LOG_TAG = "NoiseSampler"
     private val EMITTED_EVENT = "SensorsSamplerUpdate_noise"
 
-    private val permissions: Array<String> = arrayOf(
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+    private val permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
     private val timer = Timer("schedule", true)
     private var mediaRecorder: MediaRecorder? = null
     private var timestamp: Long? = null
@@ -49,7 +46,7 @@ class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val
         }
 
         try {
-            file = File(Environment.getExternalStorageDirectory(), "noise-sampler.acc")
+            file = File(context.externalMediaDirs[0], "noise-sampler.acc")
             file?.createNewFile()
         } catch (e: FileNotFoundException) {
             return Pair(false, "could not create audio file")
