@@ -24,7 +24,7 @@ class SensorSampler(context: ReactApplicationContext, interval: Long, period: Lo
     private var light: Sensor? = null
     private var lastValue: Float = 0F
 
-    private val timer = Timer("schedule", true)
+    private var timer: Timer? = null;
     private var timestamp: Long? = null
     private var timerStarted = false
 
@@ -60,7 +60,8 @@ class SensorSampler(context: ReactApplicationContext, interval: Long, period: Lo
     private fun startSchedule() {
         timestamp = System.currentTimeMillis()
         timerStarted = true
-        timer.schedule(0, interval) {
+        timer = Timer("schedule", true)
+        timer?.schedule(0, interval) {
             if (timestamp!! + period < System.currentTimeMillis()) {
                 sendEvent("${EMITTED_EVENT}_${event}","end", lastValue.toDouble())
                 release()
@@ -73,7 +74,7 @@ class SensorSampler(context: ReactApplicationContext, interval: Long, period: Lo
     private fun release() {
         sensorManager.unregisterListener(this)
         if (timerStarted) {
-            timer.cancel()
+            timer?.cancel()
             timerStarted = false
         }
     }

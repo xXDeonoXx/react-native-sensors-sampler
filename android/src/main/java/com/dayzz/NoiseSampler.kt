@@ -24,7 +24,7 @@ class NoiseSampler(context: ReactApplicationContext, interval: Long, period: Lon
     private val EMITTED_EVENT = "SensorsSamplerUpdate_noise"
 
     private val permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
-    private val timer = Timer("schedule", true)
+    private var timer: Timer? = null;
     private var mediaRecorder: MediaRecorder? = null
     private var timestamp: Long? = null
     private var file: File? = null
@@ -95,7 +95,8 @@ class NoiseSampler(context: ReactApplicationContext, interval: Long, period: Lon
     private fun startSchedule() {
         timestamp = System.currentTimeMillis()
         timerStarted = true
-        timer.schedule(0, interval) {
+        timer = Timer("schedule", true)
+        timer?.schedule(0, interval) {
             val amp = mediaRecorder?.maxAmplitude ?: 0
             var db = 0.0
             if (amp != 0) {
@@ -114,7 +115,7 @@ class NoiseSampler(context: ReactApplicationContext, interval: Long, period: Lon
     private fun release() {
         file?.delete()
         if (timerStarted) {
-            timer.cancel()
+            timer?.cancel()
             timerStarted = false
         }
         mediaRecorder?.apply {
