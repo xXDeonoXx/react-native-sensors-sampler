@@ -42,19 +42,22 @@
 
 ## Usage
 ```javascript
-import { allowedSubscriptions, subscribeTo, unsubscribe } from 'react-native-sensors-sampler';
+import { allowedSubscriptions, subscribeTo, unsubscribe, settings } from 'react-native-sensors-sampler';
+
+// set settings - every key is optional
+settings({
+    interval: 100, // 100 millis
+    period: 10000, // 10000 millis
+})
 
 // subscribe to event
 subscribeTo(
-    100, // 100 millis interval updates
-    10000, // 10000 millis sampling period
     allowedSubscriptions.NOISE, // event
     ({ value, updateType }) => { ... }, // update callback
     (error) => { ... }, // error callback - subscription faild
 );
 
 // unsubscribe from event
-// when mentioned period in subscribeTo is over the unsubscribe happen automatically
-// call this method only if you want to unsubscribe in the middle of the subscription period
+// no need to call this method when subscription period is over
 unsubscribe(allowedSubscriptions.NOISE);
 ```
