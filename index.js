@@ -9,14 +9,24 @@ export const allowedSubscriptions = {
 const subscriptions = {};
 
 /**
+ * set settings in Native SensorsSampler
+ * all keys are optional, it will set only the keys which you define in the settingsMap
+ * @param settingsMap: {
+ *      interval: define update interval in millis, default 100 millis
+ *      period: total sample period in millis, default 10000 millis
+ * }
+ */
+export const settings = (settingsMap) => {
+    SensorsSampler.settings(settingsMap);
+};
+
+/**
  * subscribe to sample event
- * @param interval: define update interval in millis
- * @param period: total sample period in millis
  * @param event: one of allowedSubscriptions
  * @param successCallback: invoked every update
  * @param errorCallback: invoked when error occurred
  */
-export const subscribeTo = (interval, period, event, successCallback, errorCallback) => {
+export const subscribeTo = (event, successCallback, errorCallback) => {
     if (!successCallback) {
         if (errorCallback) {
             errorCallback('successCallback must be set');
@@ -38,7 +48,7 @@ export const subscribeTo = (interval, period, event, successCallback, errorCallb
         return;
     }
 
-    SensorsSampler.subscribe(interval || 100, period || 10000, event)
+    SensorsSampler.subscribe(event)
         .then(() => {
             subscriptions[event] = DeviceEventEmitter.addListener(
                 `SensorsSamplerUpdate_${event}`,

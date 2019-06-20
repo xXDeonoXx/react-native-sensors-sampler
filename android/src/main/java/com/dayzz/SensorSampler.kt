@@ -13,7 +13,9 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
 import java.util.*
 import kotlin.concurrent.schedule
 
-class SensorSampler(val context: ReactApplicationContext, val interval: Long, val period: Long, var event: String): SensorEventListener {
+class SensorSampler(context: ReactApplicationContext, interval: Long, period: Long, var event: String):
+    Sampler(context, interval, period),
+    SensorEventListener {
 
     private val LOG_TAG = "SensorSampler"
     private val EMITTED_EVENT = "SensorsSamplerUpdate"
@@ -42,15 +44,16 @@ class SensorSampler(val context: ReactApplicationContext, val interval: Long, va
         Log.i(LOG_TAG, "onSensorChanged ${lastValue}")
     }
 
-    fun startSampling() {
+    override fun startSampling(): Pair<Boolean, String> {
         // Get an instance of the sensor service, and use that to get an instance of
         // a particular sensor.
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
         sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL)
+        return Pair(true, "")
     }
 
-    fun stopSampling() {
+    override fun stopSampling() {
         release()
     }
 
@@ -59,21 +62,12 @@ class SensorSampler(val context: ReactApplicationContext, val interval: Long, va
         timerStarted = true
         timer.schedule(0, interval) {
             if (timestamp!! + period < System.currentTimeMillis()) {
-                sendEvent("end", lastValue.toDouble())
+                sendEvent("${EMITTED_EVENT}_${event}","end", lastValue.toDouble())
                 release()
             } else {
-                sendEvent("update", lastValue.toDouble())
+                sendEvent("${EMITTED_EVENT}_${event}","update", lastValue.toDouble())
             }
         }
-    }
-
-    private fun sendEvent(type: String, value: Double) {
-        val params: WritableMap = Arguments.createMap()
-        params.putString("type", type)
-        params.putDouble("value", value)
-
-        context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-                .emit("${EMITTED_EVENT}_${event}", params)
     }
 
     private fun release() {

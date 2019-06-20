@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ReadableMap;
 
 import kotlin.Pair;
 
@@ -15,9 +16,17 @@ public class SensorsSamplerModule extends ReactContextBaseJavaModule {
 
     private final String LOG_TAG = "SensorsSampler";
 
+    // constants
+    private final String INTERVAL_KEY = "interval";
+    private final String PERIOD_KEY = "period";
+
+
     private final ReactApplicationContext reactContext;
     private NoiseSampler noiseSampler;
     private SensorSampler sensorSampler;
+
+    private int interval = 100; // update interval, default 100 millis
+    private int period = 10000; // subscription period, default 10000 millis
 
     public SensorsSamplerModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -30,7 +39,17 @@ public class SensorsSamplerModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void subscribe(int interval, int period, String event, Promise promise) {
+    public void settings(ReadableMap settings) {
+        if (settings.hasKey(INTERVAL_KEY)) {
+            interval = settings.getInt(INTERVAL_KEY);
+        }
+        if (settings.hasKey(PERIOD_KEY)) {
+            period = settings.getInt(PERIOD_KEY);
+        }
+    }
+
+    @ReactMethod
+    public void subscribe(String event, Promise promise) {
         switch (event) {
             case "noise":
                 if (noiseSampler == null) {
@@ -49,6 +68,7 @@ public class SensorsSamplerModule extends ReactContextBaseJavaModule {
                 } else {
                     sensorSampler.setEvent(event);
                 }
+                // we ignore return value as it always true
                 sensorSampler.startSampling();
                 promise.resolve(null);
                 break;

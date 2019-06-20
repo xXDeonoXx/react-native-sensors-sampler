@@ -17,7 +17,8 @@ import java.lang.IllegalStateException
 import java.util.*
 import kotlin.concurrent.schedule
 
-class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val period: Long) {
+class NoiseSampler(context: ReactApplicationContext, interval: Long, period: Long):
+    Sampler(context, interval, period) {
 
     private val LOG_TAG = "NoiseSampler"
     private val EMITTED_EVENT = "SensorsSamplerUpdate_noise"
@@ -47,7 +48,7 @@ class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val
         return uri
     }
 
-    fun startSampling(): Pair<Boolean, String> {
+    override fun startSampling(): Pair<Boolean, String> {
         if (!checkForPermissions()) {
             return Pair(false, "permissions not granted")
         }
@@ -87,7 +88,7 @@ class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val
         }
     }
 
-    fun stopSampling() {
+    override fun stopSampling() {
         release()
     }
 
@@ -96,27 +97,18 @@ class NoiseSampler(val context: ReactApplicationContext, val interval: Long, val
         timerStarted = true
         timer.schedule(0, interval) {
             val amp = mediaRecorder?.maxAmplitude ?: 0
-            var db = 0
+            var db = 0.0
             if (amp != 0) {
-                db = (20.0f * Math.log10(amp * 1.0)).toInt()
+                db = 20.0f * Math.log10(amp * 1.0)
             }
 
             if (timestamp!! + period < System.currentTimeMillis()) {
-                sendEvent("end", db)
+                sendEvent(EMITTED_EVENT,"end", db)
                 release()
             } else {
-                sendEvent("update", db)
+                sendEvent(EMITTED_EVENT,"update", db)
             }
         }
-    }
-
-    private fun sendEvent(type: String, value: Int) {
-        val params: WritableMap = Arguments.createMap()
-        params.putString("type", type)
-        params.putInt("value", value)
-
-        context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-                .emit(EMITTED_EVENT, params)
     }
 
     private fun release() {
