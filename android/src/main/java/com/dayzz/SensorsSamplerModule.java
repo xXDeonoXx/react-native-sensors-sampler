@@ -49,7 +49,7 @@ public class SensorsSamplerModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void subscribe(String event, Promise promise) {
+    public void subscribeToEvent(String event, Promise promise) {
         switch (event) {
             case "noise":
                 if (noiseSampler == null) {
@@ -78,7 +78,7 @@ public class SensorsSamplerModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void unsubscribe(String event) {
+    public void unsubscribeFromEvent(String event) {
         switch (event) {
             case "noise":
                 if (noiseSampler != null) {

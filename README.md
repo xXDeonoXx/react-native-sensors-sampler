@@ -48,6 +48,7 @@ import { allowedSubscriptions, subscribeTo, unsubscribe, settings } from 'react-
 settings({
     interval: 100, // 100 millis
     period: 10000, // 10000 millis
+    useBackCamera: true // only iOS, default false
 })
 
 // subscribe to event

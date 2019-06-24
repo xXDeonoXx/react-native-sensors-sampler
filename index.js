@@ -1,4 +1,4 @@
-import { NativeModules, DeviceEventEmitter } from 'react-native';
+import { NativeModules, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
 
 const { SensorsSampler } = NativeModules;
 
@@ -48,9 +48,10 @@ export const subscribeTo = (event, successCallback, errorCallback) => {
         return;
     }
 
-    SensorsSampler.subscribe(event)
+    // TODO: android was DeviceEventEmitter.addListener(...) - check if can work like ios
+    SensorsSampler.subscribeToEvent(event)
         .then(() => {
-            subscriptions[event] = DeviceEventEmitter.addListener(
+            subscriptions[event] = new NativeEventEmitter(SensorsSampler).addListener(
                 `SensorsSamplerUpdate_${event}`,
                 (params) => {
                     const { type, value } = params;
@@ -76,7 +77,7 @@ export const unsubscribe = (event) => {
         console.warn('react-native-sensors-sampler invalid event for unsubscribe', event);
         return;
     }
-    SensorsSampler.unsubscribe(event);
+    SensorsSampler.unsubscribeFromEvent(event);
     subscriptions[event].remove();
     delete subscriptions[event];
 };
