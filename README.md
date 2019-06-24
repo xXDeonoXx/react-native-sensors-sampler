@@ -41,9 +41,7 @@
 
 #### Android
     1. to use noise sampler you need to have
-          ```
-            <uses-permission android:name="android.permission.RECORD_AUDIO" />
-          ```
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 ## Usage
 ```javascript
