@@ -37,15 +37,15 @@
 
 #### iOS
 
-    1. to use light sampler you need to have Camera permission
-    2. to use noise sampler you need to have Microphone permission
+1. to use light sampler you need to have Camera permission
+2. to use noise sampler you need to have Microphone permission
 
 #### Android
 
-    1. to use noise sampler you need to have
-          ```
-            <uses-permission android:name="android.permission.RECORD_AUDIO" />
-          ```
+1. to use noise sampler you need to have
+      ```
+        <uses-permission android:name="android.permission.RECORD_AUDIO" />
+      ```
 
 ## Usage
 ```javascript
