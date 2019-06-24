@@ -109,7 +109,6 @@ RCT_EXPORT_METHOD(unsubscribeFromEvent:(NSString *)unsubscribeFromEvent)
     NSString *event = notification.userInfo[@"event"];
     NSString *type = notification.userInfo[@"type"];
     NSNumber *value = (NSNumber *)notification.userInfo[@"value"];
-    NSLog(@"eventUpdateNotification %@, %@, %@", event, type, value);
     [self sendEventWithName:event
                        body:@{@"type": type, @"value": value}];
 
