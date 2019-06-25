@@ -69,3 +69,19 @@ subscribeTo(
 // no need to call this method when subscription period is over
 unsubscribe(allowedSubscriptions.NOISE);
 ```
+
+### Parameters
+
+| Parameter     | Description                        | Default |
+| ------------- | ---------------------------------- | ------- |
+| interval      | update interval in milliseconds    | 100     |
+| period        | sample period in milliseconds      | 10000   |
+| useBackCamera | [iOS only] use for light sampling  | false   |
+
+
+#### Update callback
+1. updateType: 'update' | 'end'
+2. value <int>:
+    a. light: LUX
+    b. noise: SPL
+
