@@ -13,7 +13,7 @@ abstract class Sampler(val context: ReactApplicationContext, val interval: Long,
     fun sendEvent(event: String, type: String, value: Double) {
         val params: WritableMap = Arguments.createMap()
         params.putString("type", type)
-        params.putDouble("value", value)
+        params.putInt("value", value.toInt())
 
         context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
                 .emit(event, params)
