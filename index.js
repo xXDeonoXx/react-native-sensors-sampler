@@ -1,4 +1,4 @@
-import { NativeModules, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
+import { NativeModules, DeviceEventEmitter, NativeEventEmitter, Platform } from 'react-native';
 
 const { SensorsSampler } = NativeModules;
 
@@ -14,6 +14,7 @@ const subscriptions = {};
  * @param settingsMap: {
  *      interval: define update interval in millis, default 100 millis
  *      period: total sample period in millis, default 10000 millis
+ *      useBackCamera: iOS only - for light sampler
  * }
  */
 export const settings = (settingsMap) => {
@@ -48,10 +49,12 @@ export const subscribeTo = (event, successCallback, errorCallback) => {
         return;
     }
 
-    // TODO: android was DeviceEventEmitter.addListener(...) - check if can work like ios
     SensorsSampler.subscribeToEvent(event)
         .then(() => {
-            subscriptions[event] = new NativeEventEmitter(SensorsSampler).addListener(
+            const listenerObject = Platform.OS === 'ios'
+                ? new NativeEventEmitter(SensorsSampler)
+                : DeviceEventEmitter;
+            subscriptions[event] = listenerObject.addListener(
                 `SensorsSamplerUpdate_${event}`,
                 (params) => {
                     const { type, value } = params;

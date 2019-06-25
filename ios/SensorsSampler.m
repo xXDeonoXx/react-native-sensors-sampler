@@ -8,11 +8,13 @@
 
 #import "SensorsSampler.h"
 #import "CameraDelegate.h"
+#import "AudioMonitor.h"
 
 @interface SensorsSampler()
 {
 @private
     CameraDelegate *cameraDelegate;
+    AudioMonitor *audioMonitor;
 }
 @property int interval;
 @property int period;
@@ -59,7 +61,13 @@ RCT_REMAP_METHOD(subscribeToEvent,
         }
     }
     if ([event isEqualToString:@"noise"]) {
-        return resolve(@"fine");
+        audioMonitor = [[AudioMonitor alloc] initWithParams:[self getInterval] period:[self getPeriod]];
+        if ([audioMonitor startSampling]) {
+            [self addUpdateEventListener];
+            return resolve(@"microphone is set");
+        } else {
+            return reject(@"SensorsSamplerError", @"could not sample microphone", NULL);
+        }
     }
     reject(@"SensorsSamplerError", @"undefined event", NULL);
 }
@@ -73,7 +81,10 @@ RCT_EXPORT_METHOD(unsubscribeFromEvent:(NSString *)unsubscribeFromEvent)
         [self removeUpdateEventListener];
     }
     if ([unsubscribeFromEvent isEqualToString:@"noise"]) {
-        // TODO: ...
+        if (audioMonitor) {
+            [audioMonitor stopSampling];
+        }
+        [self removeUpdateEventListener];
     }
 }
 
@@ -110,7 +121,7 @@ RCT_EXPORT_METHOD(unsubscribeFromEvent:(NSString *)unsubscribeFromEvent)
     NSString *type = notification.userInfo[@"type"];
     NSNumber *value = (NSNumber *)notification.userInfo[@"value"];
     [self sendEventWithName:event
-                       body:@{@"type": type, @"value": value}];
+                       body:@{@"type": type, @"value": [NSNumber numberWithInt:value.intValue]}];
 
     if ([type isEqualToString:@"end"]) {
         [self removeUpdateEventListener];
