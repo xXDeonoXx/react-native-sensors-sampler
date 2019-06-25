@@ -1,7 +1,7 @@
 {
   "name": "react-native-sensors-sampler",
   "title": "React Native Sensors Sampler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,10 @@
     "baseUrl": "https://github.com/dayzz/react-native-sensors-sampler"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "sensors",
+    "lux",
+    "spl"
   ],
   "author": {
     "name": "Ofri Ivzori",
