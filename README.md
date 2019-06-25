@@ -81,7 +81,7 @@ unsubscribe(allowedSubscriptions.NOISE);
 
 #### Update callback
 1. updateType: 'update' | 'end'
-2. value <int>:
-    a. light: LUX
+2. value [int]:\
+    a. light: LUX\
     b. noise: SPL
 
