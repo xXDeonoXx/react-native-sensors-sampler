@@ -1,7 +1,7 @@
 {
   "name": "react-native-sensors-sampler",
   "title": "React Native Sensors Sampler",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "index.js",
   "scripts": {

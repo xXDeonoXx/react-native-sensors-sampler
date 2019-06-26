@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32008B6122C3832200F1FD14 /* CameraDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 32008B6022C3832200F1FD14 /* CameraDelegate.m */; };
+		32008B6422C3837300F1FD14 /* AudioMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 32008B6322C3837300F1FD14 /* AudioMonitor.m */; };
 		B3E7B58A1CC2AC0600A0062D /* SensorsSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* SensorsSampler.m */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +26,10 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libSensorsSampler.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSensorsSampler.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		32008B5F22C3832200F1FD14 /* CameraDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraDelegate.h; sourceTree = "<group>"; };
+		32008B6022C3832200F1FD14 /* CameraDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraDelegate.m; sourceTree = "<group>"; };
+		32008B6222C3837300F1FD14 /* AudioMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioMonitor.h; sourceTree = "<group>"; };
+		32008B6322C3837300F1FD14 /* AudioMonitor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioMonitor.m; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* SensorsSampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsSampler.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* SensorsSampler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorsSampler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -50,6 +56,10 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				32008B6222C3837300F1FD14 /* AudioMonitor.h */,
+				32008B6322C3837300F1FD14 /* AudioMonitor.m */,
+				32008B5F22C3832200F1FD14 /* CameraDelegate.h */,
+				32008B6022C3832200F1FD14 /* CameraDelegate.m */,
 				B3E7B5881CC2AC0600A0062D /* SensorsSampler.h */,
 				B3E7B5891CC2AC0600A0062D /* SensorsSampler.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
@@ -95,6 +105,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -112,7 +123,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32008B6422C3837300F1FD14 /* AudioMonitor.m in Sources */,
 				B3E7B58A1CC2AC0600A0062D /* SensorsSampler.m in Sources */,
+				32008B6122C3832200F1FD14 /* CameraDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +229,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-				"$(inherited)",
+					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",

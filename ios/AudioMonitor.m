@@ -23,9 +23,9 @@
 - ( id ) initWithParams:(int)interval period:(int)period
 {
     self = [ super init ];
-
+    
     scheduler = NULL;
-
+    
     self.interval = interval;
     self.period = period;
     return self;
@@ -43,10 +43,10 @@
     if (!success && errorSession) {
         return false;
     }
-
+    
     // record audio to /dev/null
     NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
-
+    
     // some settings
     NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSNumber numberWithFloat: 44100.0], AVSampleRateKey,
@@ -54,29 +54,29 @@
                               [NSNumber numberWithInt: 2], AVNumberOfChannelsKey,
                               [NSNumber numberWithInt: AVAudioQualityMax], AVEncoderAudioQualityKey,
                               NULL];
-
+    
     // create a AVAudioRecorder
     NSError *errorRecord = NULL;
     recorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error: &errorRecord];
     [recorder setMeteringEnabled:YES];
-
+    
     if ( NULL != recorder) {
         [recorder prepareToRecord];
         recorder.meteringEnabled = YES;
         [recorder record];
-
+        
         timestamp = [NSDate date];
         // start update timer
         dispatch_async(dispatch_get_main_queue(), ^{
             float recordInterval = self.interval / 1000.0f;
             scheduler = [NSTimer
-                            scheduledTimerWithTimeInterval:recordInterval
-                            target:self
-                            selector: @selector(handleTimer:)
-                            userInfo: nil
-                            repeats: YES];
+                         scheduledTimerWithTimeInterval:recordInterval
+                         target:self
+                         selector: @selector(handleTimer:)
+                         userInfo: nil
+                         repeats: YES];
         });
-
+        
         [recorder updateMeters];
         return true;
     }
@@ -95,31 +95,31 @@
 - (BOOL) checkMicrophonePermission
 {
     AVAudioSessionRecordPermission permission = [[AVAudioSession sharedInstance]
-                                        recordPermission];
+                                                 recordPermission];
     return permission == AVAudioSessionRecordPermissionGranted;
 }
 
 - (void)handleTimer:(NSTimer *)timer
 {
     [recorder updateMeters];
-
+    
     // here is the DB!
     float averagePower = [recorder averagePowerForChannel: 1];
     // offset to SPL DB
     float spl = averagePower + 80;
-
+    
     NSString *updateType = @"update";
-
+    
     if (timestamp == NULL) {
         timestamp = [NSDate date];
     }
-
+    
     NSDate *now = [NSDate date];
     if ([now timeIntervalSinceDate:timestamp] > (self.period / 1000.0)) {
         [self stopSampling];
         updateType = @"end";
     }
-
+    
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"RCT_sensorUpdateEvent"
      object:self
