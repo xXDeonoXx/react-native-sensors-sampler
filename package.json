@@ -1,7 +1,7 @@
 {
   "name": "react-native-sensors-sampler",
   "title": "React Native Sensors Sampler",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dayzz/react-native-sensors-sampler.git",
-    "baseUrl": "https://github.com/dayzz/react-native-sensors-sampler"
+    "url": "git+https://github.com/ofri84/react-native-sensors-sampler.git",
+    "baseUrl": "https://github.com/ofri84/react-native-sensors-sampler"
   },
   "keywords": [
     "react-native",
