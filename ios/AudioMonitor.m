@@ -106,7 +106,7 @@
     // here is the DB!
     float averagePower = [recorder averagePowerForChannel: 1];
     // offset to SPL DB
-    float spl = averagePower + 80;
+    float spl = averagePower + [self getOffset:averagePower];
     
     NSString *updateType = @"update";
     
@@ -128,6 +128,21 @@
                 @"type": updateType,
                 @"value": [NSNumber numberWithDouble:spl]
                 }];
+}
+
+- (int)getOffset:(float)averagePower
+{
+    int offset = 83;
+    if (averagePower > -20.0) {
+        offset = 86;
+    }
+    if (averagePower > -15.0) {
+        offset = 90;
+    }
+    if (averagePower > -10.0) {
+        offset = 94;
+    }
+    return offset;
 }
 
 @end
