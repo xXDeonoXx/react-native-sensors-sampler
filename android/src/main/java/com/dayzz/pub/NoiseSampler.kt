@@ -1,16 +1,12 @@
-package com.dayzz
+package com.dayzz.pub
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.net.Uri
-import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.WritableMap
-import com.facebook.react.modules.core.DeviceEventManagerModule
 import java.io.*
 import java.lang.Exception
 import java.lang.IllegalStateException

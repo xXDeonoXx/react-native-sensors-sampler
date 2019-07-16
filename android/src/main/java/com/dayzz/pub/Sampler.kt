@@ -1,4 +1,4 @@
-package com.dayzz
+package com.dayzz.pub
 
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
