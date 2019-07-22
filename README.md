@@ -21,7 +21,7 @@
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainApplication.java`
-  - Add `import com.dayzz.pub.SensorsSamplerPackage;` to the imports at the top of the file
+  - Add `import com.dayzz.sensors.SensorsSamplerPackage;` to the imports at the top of the file
   - Add `new SensorsSamplerPackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
   	```
@@ -81,7 +81,7 @@ unsubscribe(allowedSubscriptions.NOISE);
 
 #### Update callback
 1. updateType: 'update' | 'end'
-2. value [int]:\
+2. value [double]:\
     a. light: LUX\
     b. noise: SPL
 

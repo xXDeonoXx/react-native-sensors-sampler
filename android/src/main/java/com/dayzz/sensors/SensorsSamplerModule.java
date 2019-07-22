@@ -1,4 +1,4 @@
-package com.dayzz.pub;
+package com.dayzz.sensors;
 
 
 import android.util.Log;

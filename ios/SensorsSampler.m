@@ -121,7 +121,7 @@ RCT_EXPORT_METHOD(unsubscribeFromEvent:(NSString *)unsubscribeFromEvent)
     NSString *type = notification.userInfo[@"type"];
     NSNumber *value = (NSNumber *)notification.userInfo[@"value"];
     [self sendEventWithName:event
-                       body:@{@"type": type, @"value": [NSNumber numberWithInt:value.intValue]}];
+                       body:@{@"type": type, @"value": value}];
 
     if ([type isEqualToString:@"end"]) {
         [self removeUpdateEventListener];

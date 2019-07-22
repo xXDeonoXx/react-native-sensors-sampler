@@ -1,4 +1,4 @@
-package com.dayzz.pub;
+package com.dayzz.sensors;
 
 import java.util.Arrays;
 import java.util.Collections;

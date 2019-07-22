@@ -1,4 +1,4 @@
-package com.dayzz.pub
+package com.dayzz.sensors
 
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
@@ -13,7 +13,7 @@ abstract class Sampler(val context: ReactApplicationContext, val interval: Long,
     fun sendEvent(event: String, type: String, value: Double) {
         val params: WritableMap = Arguments.createMap()
         params.putString("type", type)
-        params.putInt("value", value.toInt())
+        params.putDouble("value", value)
 
         context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
                 .emit(event, params)
