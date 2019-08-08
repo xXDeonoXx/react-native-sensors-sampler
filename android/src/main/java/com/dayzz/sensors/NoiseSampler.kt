@@ -46,7 +46,7 @@ class NoiseSampler(context: ReactApplicationContext, interval: Long, period: Lon
 
     override fun startSampling(): Pair<Boolean, String> {
         if (!checkForPermissions()) {
-            return Pair(false, "permissions not granted")
+            return Pair(false, "permissions_not_granted")
         }
 
         val filePath = "${context.filesDir.absolutePath}/noise-sampler.acc"
@@ -56,7 +56,7 @@ class NoiseSampler(context: ReactApplicationContext, interval: Long, period: Lon
             file = File(filePath)
             fd = context.contentResolver.openFileDescriptor(uri, "w")!!.fileDescriptor
         } catch (e: Exception) {
-            return Pair(false, "could not create audio file")
+            return Pair(false, "could_not_create_audio_file")
         }
 
         MediaRecorder().apply {
@@ -69,7 +69,7 @@ class NoiseSampler(context: ReactApplicationContext, interval: Long, period: Lon
                 prepare()
             } catch (e: IOException) {
                 file?.delete()
-                return Pair(false, "prepare recording failed")
+                return Pair(false, "prepare_recording_failed")
             }
 
             try {
@@ -79,7 +79,7 @@ class NoiseSampler(context: ReactApplicationContext, interval: Long, period: Lon
                 return Pair(true, "")
             } catch (e: IllegalStateException) {
                 file?.delete()
-                return Pair(false, "start recording failed")
+                return Pair(false, "start_recording_failed")
             }
         }
     }

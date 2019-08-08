@@ -30,7 +30,7 @@ export const settings = (settingsMap) => {
 export const subscribeTo = (event, successCallback, errorCallback) => {
     if (!successCallback) {
         if (errorCallback) {
-            errorCallback('successCallback must be set');
+            errorCallback({ code: 'no_success_callback', msg: 'successCallback must be set' });
         } else {
             console.warn('react-native-sensors-sampler, successCallback must be set');
         }
@@ -38,13 +38,13 @@ export const subscribeTo = (event, successCallback, errorCallback) => {
     }
     if (!Object.values(allowedSubscriptions).includes(event)) {
         if (errorCallback) {
-            errorCallback(`unsupported event ${event}`);
+            errorCallback({ code: 'unsupported_event', event });
         }
         return;
     }
     if (subscriptions[event]) {
         if (errorCallback) {
-            errorCallback(`${event} already subscribed`);
+            errorCallback({ code: 'already_subscribed', event });
         }
         return;
     }
@@ -68,7 +68,8 @@ export const subscribeTo = (event, successCallback, errorCallback) => {
         })
         .catch((error) => {
             if (errorCallback) {
-                errorCallback(`error while subscribeTo ${event}, ${error}`);
+                const { userInfo = {} } = error || {};
+                errorCallback(userInfo);
             } else {
                 console.warn('react-native-sensors-sampler, error on subscribeTo', error);
             }

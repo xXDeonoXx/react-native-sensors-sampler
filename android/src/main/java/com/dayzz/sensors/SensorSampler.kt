@@ -45,9 +45,13 @@ class SensorSampler(context: ReactApplicationContext, interval: Long, period: Lo
         // Get an instance of the sensor service, and use that to get an instance of
         // a particular sensor.
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
-        sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL)
-        return Pair(true, "")
+				light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
+				if (light == null) {
+						return Pair(false, "unsupported_device")
+				}
+
+				sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL)
+				return Pair(true, "")
     }
 
     override fun stopSampling() {

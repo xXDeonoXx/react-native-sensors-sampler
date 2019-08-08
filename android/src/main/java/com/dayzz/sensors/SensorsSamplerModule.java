@@ -49,31 +49,40 @@ public class SensorsSamplerModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void subscribeToEvent(String event, Promise promise) {
-        switch (event) {
-            case "noise":
-                if (noiseSampler == null) {
-                    noiseSampler = new NoiseSampler(reactContext, interval, period);
-                }
-                Pair pair = noiseSampler.startSampling();
-                if ((Boolean) pair.getFirst()) {
-                    promise.resolve(null);
-                } else {
-                    promise.reject("NoiseSamplerError", pair.getSecond().toString());
-                }
-                break;
-            case "light":
-                if (sensorSampler == null) {
-                    sensorSampler = new SensorSampler(reactContext, interval, period, event);
-                } else {
-                    sensorSampler.setEvent(event);
-                }
-                // we ignore return value as it always true
-                sensorSampler.startSampling();
-                promise.resolve(null);
-                break;
-            default:
-                promise.reject("SensorsSamplerError", "undefined event");
-        }
+        Pair pair;
+				switch (event) {
+						case "noise":
+								if (noiseSampler == null) {
+										noiseSampler = new NoiseSampler(reactContext, interval, period);
+								}
+								pair = noiseSampler.startSampling();
+								if ((Boolean) pair.getFirst()) {
+										promise.resolve(null);
+								} else {
+										WritableMap map = Arguments.createMap();
+										map.putString("code", pair.getSecond().toString());
+										promise.reject("NoiseSamplerError", map);
+								}
+								break;
+						case "light":
+								if (sensorSampler == null) {
+										sensorSampler = new SensorSampler(reactContext, interval, period, event);
+								} else {
+										sensorSampler.setEvent(event);
+								}
+								pair = sensorSampler.startSampling();
+								if ((Boolean) pair.getFirst()) {
+										promise.resolve(null);
+								} else {
+										WritableMap map = Arguments.createMap();
+										map.putString("code", pair.getSecond().toString());
+										map.putString("msg", "sensor is null");
+										promise.reject("NoiseSamplerError", map);
+								}
+								break;
+						default:
+								promise.reject("SensorsSamplerError", "undefined_event");
+
     }
 
     @ReactMethod
