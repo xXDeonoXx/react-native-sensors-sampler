@@ -82,7 +82,7 @@ public class SensorsSamplerModule extends ReactContextBaseJavaModule {
 								break;
 						default:
 								promise.reject("SensorsSamplerError", "undefined_event");
-
+				}
     }
 
     @ReactMethod
