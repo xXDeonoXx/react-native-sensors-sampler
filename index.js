@@ -68,8 +68,8 @@ export const subscribeTo = (event, successCallback, errorCallback) => {
         })
         .catch((error) => {
             if (errorCallback) {
-                const { userInfo = {} } = error || {};
-                errorCallback(userInfo);
+                const { code } = error || {};
+                errorCallback({ code });
             } else {
                 console.warn('react-native-sensors-sampler, error on subscribeTo', error);
             }
