@@ -1,16 +1,16 @@
 {
-  "name": "react-native-sensors-sampler",
+  "name": "@deono/react-native-sensors-sampler",
   "title": "React Native Sensors Sampler",
   "version": "1.0.13",
-  "description": "",
+  "description": "Library used to get native sensors values",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ofri84/react-native-sensors-sampler.git",
-    "baseUrl": "https://github.com/ofri84/react-native-sensors-sampler"
+    "url": "git+https://github.com/xXDeonoXx/react-native-sensors-sampler.git",
+    "baseUrl": "https://github.com/xXDeonoXx/react-native-sensors-sampler"
   },
   "keywords": [
     "react-native",
