@@ -1,3 +1,7 @@
+# DISCLAIMER !!!
+
+This fork was created to suply a personal need that the original repo doens't provided me, the properties in the iOS native side had missing params that prevent the full use of this library, this fork fixes that and change only that.
+
 # react-native-sensors-sampler
 
 ## Getting started
